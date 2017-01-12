@@ -23,8 +23,8 @@ Using a sample of the Freddie Mac loan level performance dataset, which covers t
 ### Domain knowledge
 - I have twelve years of experience as an Agency Mortgage Backed Securities analyst and understand the residential mortgage market very well.  I formed hypotheses based on industry knowledge and external data.  My personal challenge here will be analyzing the data myself.
 - Regarding Problem 1, a handful of studies have explored the shift in mortgage underwriting pre and post crisis, but only qualitatively (e.g. "credit scores lower, down payments lower").  Im hoping my analysis can improve on these works: 
-- The Urban Institute, July 21 2015: The Credit Shows Early Signs of Loosening: http://www.urban.org/research/publication/credit-box-shows-early-signs-loosening-evidence-latest-hcai-update
-- Federal Reserve Bank of Kansas City, July 7 2014: Tight Credit Conditions Continue to Constrain the Housing Recovery: https://www.bostonfed.org/-/media/Documents/Workingpapers/PDF/cpp1401.pdf
+	- The Urban Institute, July 21 2015: The Credit Shows Early Signs of Loosening: http://www.urban.org/research/publication/credit-box-shows-early-signs-loosening-evidence-latest-hcai-update
+	- Federal Reserve Bank of Kansas City, July 7 2014: Tight Credit Conditions Continue to Constrain the Housing Recovery: https://www.bostonfed.org/-/media/Documents/Workingpapers/PDF/cpp1401.pdf
 - Regarding Problem 2, my company has a proprietary loss model that calculates default probability based on origination characteristics.  (So I know this can be done, but again the challenge is for me personally to apply what we learned in class and calculate myself).  
 - Additionally, there is plenty of research on what triggers mortgage defaults but the loans in question are mostly subprime loans made before the crisis (example below).  My problem centers on loans that were underwritten to government standards, which only started passing losses to investors in 2015 and the vast historical dataset was only made public in November 2016. 
 - Federal Reserve Board Divisions of Research, Statistics and Monetary Affairs, November 2008: The Rise in Mortgage Defaults: https://www.federalreserve.gov/pubs/feds/2008/200859/200859pap.pdf
@@ -42,4 +42,3 @@ Using a sample of the Freddie Mac loan level performance dataset, which covers t
 - I think the regression model will need to show a relatively high accuracy score in order to be useful; I would be satisfied with something ~80% or higher.  
 - But for me personally given the scope of this class, I will consider this project a success if I can at a minimum identify some clusters as per problem 1 and/or show some correlation between origination features and event of default (yes/no) as per problem 2.  
 - If the project is unsuccessful (e.g. very low accuracy score), I will try testing other features (both included in and excluded from this dataset) or re-sampling the dataset.  If that still doesn’t work, I will go back to my day job!
-
