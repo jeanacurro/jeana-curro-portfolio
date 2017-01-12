@@ -1,0 +1,45 @@
+# DS-NYC-DAT-45 | Jeana Curro | Final Project 2: Project Design Writeup
+## Exploring Trends and Predicting Losses in Single-Family Mortgage Data
+
+### Project Problem and Hypothesis
+- This project looks at the payment performance of single family mortgage loans.  In English, we ultimately want to see which factors lead to a greater likelihood of one defaulting on his mortgage.  We also explore how underwriting has changed before and after the financial crisis.  We chose two related problems here since the lessons learned from the crisis have reshaped the mortgage market dramatically to what it is today.
+- Problem Statement #1 and Hypothesis:
+Using a sample of the Freddie Mac loan level origination dataset which covers 837,500 randomly selected single-family mortgage loans spanning 1999-2016, we will explore different origination trends pre and post the financial crisis (which peaked September 2008) 
+We hypothesize that loans originated prior to the crisis generally show weaker credit characteristics (e.g. lower credit scores, lower down-payments, and higher debt to income ratios) than loans originated post crisis.
+- Problem Statement #2 and Hypothesis:
+Using a sample of the Freddie Mac loan level performance dataset, which covers the repayment and loss history of 837,500 single family mortgage loans from 1999 until Q1 2016, we attempt to quantify probability of a borrower defaulting given the loan’s origination characteristics.  We will most likely limit this analysis to loans originated post crisis (2012-2014) because these loans were subject to entirely different underwriting standards than pre-crisis loans.  In other words, making a default model for pre-crisis loans may not have much relevance as these loans more or less do not really exist.
+- Problem #1 is a clustering problem.  While most of the data is numeric (e.g. credit score, debt-to-income ratio, loan size) some of it is categorical (e.g. state) and needs to be converted.  Problem #2 will likely rely on a multivariable regression as we are ultimately trying to predict the probability of default.  But a first step here is to look at which features correlate with the Boolean outcome of default (no default = 0, default =1)
+- I think the impact of this study will be significant for investors deciding whether or not to buy mortgage backed securities.  Beginning in 2015, in effort to reduce its footprint in housing finance, the US government will no longer guarantee all loans in their entirety.  This means that for the first time, investors will take the loss if a loan defaults.  
+- Historical experience has shown a borrower’s credit score, down-payment, and his debt-to-income ratio are good indicators of default.  I suspect all three of these features (lumped together as “credit characteristics”) will play a part, but one may be more important than the others.  
+
+### Datasets
+- The data was made publicly available by Freddie Mac in November 2016.  A complete description of the dataset, including feature selection, is available on Freddie Mac's website and is included in my Final Project 1 presentation (p7):  http://www.freddiemac.com/news/finance/pdf/user_guide.pdf
+- The data is very comprehensive.  It includes origination data and loan performance data on a random sample of 50,000 loans for each origination year spanning 1999-2015 and 37,500 loans originated the first 9 months 2016.  For our purposes, we will select a much smaller sample (TBD) from specific origination years:    
+- For problem 1, we will select loans originated 2006 for our pre-crisis subset and loans originated 2012 for our post-crisis subset.  For problem 2, we will select loans originated in 2012.
+- The data is then broken down in individual text files:  for each calendar year, there is one file detailing loan characteristics at origination ("origination dataset") and one file detailing loan payment performance ("performance dataset").  These datasets will need to be merged:  
+	- Problem 1 will need to merge origination datasets at the vintage level so we can compare 2006 loans with 2012 loans, for example.
+	- Problem 2 will need to merge the origination and performance dataset for a specific calendar year so we can see which origination characteristics are correlated with defaults.  
+
+### Domain knowledge
+- I have twelve years of experience as an Agency Mortgage Backed Securities analyst and understand the residential mortgage market very well.  I formed hypotheses based on industry knowledge and external data.  My personal challenge here will be analyzing the data myself.
+- Regarding Problem 1, a handful of studies have explored the shift in mortgage underwriting pre and post crisis, but only qualitatively (e.g. "credit scores lower, down payments lower").  Im hoping my analysis can improve on these works: 
+- The Urban Institute, July 21 2015: The Credit Shows Early Signs of Loosening: http://www.urban.org/research/publication/credit-box-shows-early-signs-loosening-evidence-latest-hcai-update
+- Federal Reserve Bank of Kansas City, July 7 2014: Tight Credit Conditions Continue to Constrain the Housing Recovery: https://www.bostonfed.org/-/media/Documents/Workingpapers/PDF/cpp1401.pdf
+- Regarding Problem 2, my company has a proprietary loss model that calculates default probability based on origination characteristics.  (So I know this can be done, but again the challenge is for me personally to apply what we learned in class and calculate myself).  
+- Additionally, there is plenty of research on what triggers mortgage defaults but the loans in question are mostly subprime loans made before the crisis (example below).  My problem centers on loans that were underwritten to government standards, which only started passing losses to investors in 2015 and the vast historical dataset was only made public in November 2016. 
+- Federal Reserve Board Divisions of Research, Statistics and Monetary Affairs, November 2008: The Rise in Mortgage Defaults: https://www.federalreserve.gov/pubs/feds/2008/200859/200859pap.pdf
+
+### Project Concerns
+- I think my biggest challenge will be the programming aspect.  I need to learn how to merge datasets (thanks Paul!).  Also each dataset is very vast and has over 40 features.  I'm hoping my industry knowledge can help me eliminate some right away, but then will rely on lasso to help with the rest.  There will likely be some "redundant" features (e.g. zip code and state) so I will again need to decide which are best (if any) as lasso cannot determine this.  
+- My data detailing the borrower is very comprehensive at the time of loan origination, but does not update past that.  For example, suppose someone was gainfully employed at the time of mortgage but later lost his job and then defaulted.  That is detail we do not know.  This dataset lacks broader economic data (e.g. national unemployment rate, savings rate) however again this is where my industry knowledge will hopefully come into play.  
+- I have no concerns about the accuracy of the data.  As it is very large it should be representative.  I am hoping my random sample will indeed be random enough.  I need to decide how many loans to include, but if my training model shows high variance I can always add more.  
+- If the model is accurate it will be very useful in guiding investment decisions.  The biggest risk is if the model were to seriously underestimate defaults and thus expose investors to large, unexpected losses.  If the model overestimated defaults, then securities would be priced at a big discount and the buyer would see great upside (less defaults than expected) although the seller would have arguably sold too cheap.  
+
+### Outcomes
+- I expect the output to closely agree with my hypotheses.  I expect to find strong statistical correlation between credit characteristics and likelihood of default.
+- If presenting to an audience of potential investors, they would be most interested in discovering features that translate to low defaults because that implies undiscovered investment opportunities.  
+- The model does not have to be complicated (e.g. can be a basic regression) but it does need to be comprehensive as we know many factors contribute to payment performance.  I think the biggest risk would be drawing an oversimplified conclusion, e.g. saying high credit scores lead to low defaults period.  
+- I think the regression model will need to show a relatively high accuracy score in order to be useful; I would be satisfied with something ~80% or higher.  
+- But for me personally given the scope of this class, I will consider this project a success if I can at a minimum identify some clusters as per problem 1 and/or show some correlation between origination features and event of default (yes/no) as per problem 2.  
+- If the project is unsuccessful (e.g. very low accuracy score), I will try testing other features (both included in and excluded from this dataset) or re-sampling the dataset.  If that still doesn’t work, I will go back to my day job!
+
